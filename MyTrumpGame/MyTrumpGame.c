@@ -6,13 +6,37 @@ typedef struct trump
 	char shape[3];
 	char number;
 }trump;
+/*
+	카드를 만들고 섞음
+*/
 void trump_card_list(struct trump m_card[]);
+/*
+	카드 초기화
+*/
 void make_card(struct trump m_card[]);
+/*
+	카드 섞음
+*/
 void shuffle_card(struct trump m_card[]);
+/*
+	디버깅용 카드 섞은 결과 리턴
+*/
 void display_card(struct trump m_card[]);
+/*
+	게임 규칙 보여줌
+*/
 void game_start();
+/*
+	게임 진행
+*/
 void play_game(struct trump m_card[]);
+/*
+	내가 가질 돈 초기화
+*/
 long make_money();
+/*
+	베팅
+*/
 long make_betmoney(long money);
 void main() {
 	struct trump card[52];
