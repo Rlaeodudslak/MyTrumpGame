@@ -7,9 +7,13 @@ typedef struct trump
 	char number;
 }trump;
 /*
+	카드 뽑은 위치를 알려주기 위함.
+*/
+int trump_pointer; 
+/*
 	카드를 만들고 섞음
 */
-void trump_card_list(struct trump m_card[]);
+void trump_card_list(trump m_card[]);
 /*
 	카드 초기화
 */
@@ -21,7 +25,7 @@ void shuffle_card(struct trump m_card[]);
 /*
 	디버깅용 카드 섞은 결과 리턴
 */
-void display_card(struct trump m_card[]);
+void display_card(struct trump m_card[],int size);
 /*
 	게임 규칙 보여줌
 */
@@ -38,10 +42,15 @@ long make_money();
 	베팅
 */
 long make_betmoney(long money);
+/*
+	카드 뽑기 - 사람 4개, 컴퓨터 4개
+*/
+struct trump* Set_card_list(trump trump_card_list[52]);
 void main() {
 	struct trump card[52];
+	trump_pointer = 0;
 	trump_card_list(card);
-	display_card(card);
+	display_card(card,52);
 	play_game(card);
 }
 void make_card(struct trump m_card[]){
@@ -86,9 +95,9 @@ void trump_card_list(struct trump m_card[]) {
 	make_card(m_card);
 	shuffle_card(m_card);
 }
-void display_card(struct trump m_card[]) {
+void display_card(struct trump m_card[],int size) {
 	int i, count = 0;
-	for (i = 0; i < 52; i++) {
+	for (i = 0; i < size; i++) {
 		printf("%s", m_card[i].shape);
 		if (10 < m_card[i].number) printf("%-2c", m_card[i].number);
 		else {
@@ -98,6 +107,7 @@ void display_card(struct trump m_card[]) {
 		count++;
 		if (i % 13 + 1 == 13) { printf("\n"); count = 0; }
 	}
+	printf("\n");
 }
 void game_start() {
 	int a;
@@ -127,5 +137,22 @@ void play_game(struct trump m_card[]) {
 	game_start();
 	money = make_money();
 	betmoney = make_betmoney(money);
-	
+	trump* card_list_human = Set_card_list(m_card);
+	for (int i = 0; i < 4; i++) {
+
+		human[i] = *(card_list_human+i);
+	}
+	display_card(human,4);
+	trump* card_list_AI = Set_card_list(m_card);
+	for (int i = 0; i < 4; i++) {
+		AI[i] = *(card_list_AI + i);
+	}
+	display_card(AI,4);
+}
+trump* Set_card_list(trump trump_card_list[52]) {
+	trump response[4];
+	for (int i = 0; i < 4; i++) {
+		response[i] = trump_card_list[trump_pointer++];
+	}
+	return response;
 }
